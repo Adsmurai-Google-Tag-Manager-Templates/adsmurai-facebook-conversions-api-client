@@ -15,5 +15,11 @@
 homepage: "https://www.adsmurai.com"
 documentation: "https://www.example.com/documentation"
 versions:
+  # Latest version
+  - sha: 7e7d42b99baf3a94c67c9fdf1402db3a9acb86c7
+    changeNotes: v0.3
+      Add option to hash user data
+      Add option to hash external_id
+  # Older versions
   - sha: 24c660c311355cd70a7b7894d579ae4166a63b69
     changeNotes: Initial release
