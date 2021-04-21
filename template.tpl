@@ -154,6 +154,22 @@ ___TEMPLATE_PARAMETERS___
     "defaultValue": "any",
     "help": "Choose \"any\" to allow any domain to make requests to this client. Choose \"list\" to specify a list of allowed domains.",
     "alwaysInSummary": true
+  },
+  {
+    "type": "CHECKBOX",
+    "name": "hashUserData",
+    "checkboxText": "Hash user data",
+    "simpleValueType": true,
+    "defaultValue": false,
+    "help": "Check this box if user data is being sent to this client unhashed. Hashing user\u0027s data before sending it to Facebook Conversions API is mandatory."
+  },
+  {
+    "type": "CHECKBOX",
+    "name": "hashExternalId",
+    "checkboxText": "Hash external ID",
+    "simpleValueType": true,
+    "defaultValue": false,
+    "help": "Check this box if external ID value is being sent to this client unhashed. Hashing external ID is optional."
   }
 ]
 
@@ -239,21 +255,21 @@ if (getRequestMethod() === 'GET') {
         }
     }
 
-    let data = [{
+    let eventData = [{
         event_name: queryParameters.event_name,
         event_time: queryParameters.event_time,
         user_data: {
-            em: queryParameters.em,
-            ph: queryParameters.ph,
-            ge: queryParameters.ge,
-            db: queryParameters.db,
-            ln: queryParameters.ln,
-            fn: queryParameters.fn,
-            ct: queryParameters.ct,
-            st: queryParameters.st,
-            zp: queryParameters.zp,
-            country: queryParameters.country,
-            external_id: queryParameters.external_id,
+            em: data.hashUserData ? hash(queryParameters.em) : queryParameters.em,
+            ph: data.hashUserData ? hash(queryParameters.ph) : queryParameters.ph,
+            ge: data.hashUserData ? hash(queryParameters.ge) : queryParameters.ge,
+            db: data.hashUserData ? hash(queryParameters.db) : queryParameters.db,
+            ln: data.hashUserData ? hash(queryParameters.ln) : queryParameters.ln,
+            fn: data.hashUserData ? hash(queryParameters.fn) : queryParameters.fn,
+            ct: data.hashUserData ? hash(queryParameters.ct) : queryParameters.ct,
+            st: data.hashUserData ? hash(queryParameters.st) : queryParameters.st,
+            zp: data.hashUserData ? hash(queryParameters.zp) : queryParameters.zp,
+            country: data.hashUserData ? hash(queryParameters.country) : queryParameters.country,
+            external_id: data.hashExternalId ? hash(queryParameters.external_id) : queryParameters.external_id,
             fbc: queryParameters.fbc,
             fbp: queryParameters.fbp,
             subscription_id: queryParameters.subscription_id,
@@ -288,23 +304,23 @@ if (getRequestMethod() === 'GET') {
     const userAgent = getRequestHeader('User-Agent');
 
     if (remoteIP && userAgent) {
-        if (!data[0].user_data) {
-            data[0].user_data = {};
+        if (!eventData[0].user_data) {
+            eventData[0].user_data = {};
         }
-        data[0].user_data.client_ip_address = remoteIP;
-        data[0].user_data.client_user_agent = userAgent;
+        eventData[0].user_data.client_ip_address = remoteIP;
+        eventData[0].user_data.client_user_agent = userAgent;
     }
 
     if (queryParameters.customProperties) {
         queryParameters.customProperties.forEach(customProperty => {
-            if (!data[0].custom_data) {
-                data[0].custom_data = {};
+            if (!eventData[0].custom_data) {
+                eventData[0].custom_data = {};
             }
-            data[0].custom_data[customProperty.propertyName] = customProperty.propertyValue;
+            eventData[0].custom_data[customProperty.propertyName] = customProperty.propertyValue;
         });
     }
 
-    sendEvent(data);
+    sendEvent(eventData);
 }
 
 function sendEvent(eventData) {
@@ -366,6 +382,28 @@ function isThisDomainAllowed() {
     return data.allowedDomainsList.some((domain) => {
         return domain === origin;
     });
+}
+
+function hash(value) {
+    const sha256Sync = require('sha256Sync');
+    const makeString = require('makeString');
+
+    switch (getType(value)) {
+        case 'undefined':
+        case 'null':
+        case 'object':
+        case 'function':
+        case 'boolean':
+            return value;
+        case 'string':
+            return sha256Sync(value.toLowerCase().trim(), {outputEncoding: 'hex'});
+        case 'number':
+            return sha256Sync(makeString(value), {outputEncoding: 'hex'});
+        case 'array':
+            return value.map(valueToHash => hash(valueToHash));
+        default:
+            return sha256Sync(value, {outputEncoding: 'hex'});
+    }
 }
 
 
@@ -760,6 +798,6 @@ scenarios: []
 
 ___NOTES___
 
-Version 0.2
+Version 0.3
 
 
