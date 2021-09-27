@@ -13,13 +13,16 @@
 # limitations under the License.
 
 homepage: "https://www.adsmurai.com"
-documentation: "https://www.example.com/documentation"
+documentation: "https://github.com/Adsmurai-Google-Tag-Manager-Templates/adsmurai-facebook-conversions-api-client"
 versions:
   # Latest version
-  - sha: 7e7d42b99baf3a94c67c9fdf1402db3a9acb86c7
-    changeNotes: v0.3
-      Add option to hash user data
-      Add option to hash external_id
+  - sha: 0c206a20c5dc606012a1e9daf18632c33e5d1ad3
+    changeNotes: v0.4
+      Add event_name printing on GTM's debugger
   # Older versions
+  - sha: 7e7d42b99baf3a94c67c9fdf1402db3a9acb86c7
+      changeNotes: v0.3
+        Add option to hash user data
+        Add option to hash external_id
   - sha: 24c660c311355cd70a7b7894d579ae4166a63b69
     changeNotes: Initial release
