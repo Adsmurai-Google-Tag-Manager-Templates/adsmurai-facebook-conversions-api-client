@@ -328,6 +328,7 @@ function sendEvent(eventData) {
 
     data.pixelsData.forEach((pixel) => {
         let eventToSend = {
+            event_name: eventData[0].event_name + " (" + pixel.pixelId + ")",
             pixel_id: pixel.pixelId,
             access_token: pixel.accessToken,
             data: eventData
@@ -798,6 +799,6 @@ scenarios: []
 
 ___NOTES___
 
-Version 0.3
+Version 0.4
 
 
