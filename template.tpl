@@ -89,7 +89,7 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Incoming request URL",
     "simpleValueType": true,
     "notSetText": "Your URL",
-    "help": "Choose which page path you want to use for listening to requests containing Facebook events data. The path on the incoming request must exactly match this field.\u003cbr\u003e\u003cbr\u003eE.g.: If you enter \"facebook\", this client will listen for requests to \u003ci\u003ehttps://your-server-side-gtm-container.com/\u003cb\u003efacebook\u003c/b\u003e\u003c/i\u003e, but won\u0027t listen for requests to \u003ci\u003ehttps://your-server-side-gtm-container.com/\u003cb\u003efacebook-tracking\u003c/b\u003e\u003c/i\u003e.\u003cbr\u003e\u003cbr\u003eLeave empty to target the base URL.",
+    "help": "Choose which page path you want to use for listening to requests containing Facebook events data. The path on the incoming request must exactly match this field.\u003cbr\u003e\u003cbr\u003eE.g.: If you enter \"facebook\", this client will listen for requests to \u003ci\u003ehttps://your-server-side-gtm-container.com/\u003cb\u003efacebook\u003c/b\u003e\u003c/i\u003e, but won\u0027t listen for requests to \u003ci\u003ehttps://your-server-side-gtm-container.com/\u003cb\u003efacebook-tracking\u003c/b\u003e\u003c/i\u003e.\u003cbr\u003e\u003cbr\u003e",
     "defaultValue": "facebook",
     "valueValidators": [
       {
