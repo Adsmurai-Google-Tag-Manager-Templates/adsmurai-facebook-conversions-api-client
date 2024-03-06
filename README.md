@@ -2,6 +2,8 @@
 
 This Google Tag Manager custom client for server containers helps with sending Facebook events through Conversions API.
 
+To send the same event to multiple channels at once like TikTok/Google/Pinterest you can make use of [Adsmurai One Tag](https://www.adsmurai.com/en/product/serverless-tracking)
+
 ## Installation
 
 This template is not available on the Community Template Gallery yet, so it has to be installed manually following these instructions:
